@@ -1,26 +1,34 @@
-score = float(input('Enter score:'))
+#adds functions to grade_calculator.py
 
-if score > 1 or score <0:
-    print('Please enter a valid score')
-
-else:
-
-    if score >= 0.9:
-        grade = 'A'
-
-    elif score >= 0.8:
-        grade = 'B'
+def main():
+    score = float(input('Enter score:'))
+    computegrade(score)
 
 
-    elif score >= 0.7:
-        grade = 'C'
-
-
-    elif score >= 0.6:
-        grade = 'D'
-
+def computegrade(score):
+    if score > 1 or score <0:
+        print('Please enter a valid score')
 
     else:
-        grade = 'F'
 
-    print('Grade:', grade)
+        if score >= 0.9:
+            grade = 'A'
+
+        elif score >= 0.8:
+            grade = 'B'
+
+
+        elif score >= 0.7:
+            grade = 'C'
+
+
+        elif score >= 0.6:
+            grade = 'D'
+
+
+        else:
+            grade = 'F'
+
+        print('Grade:', grade)
+
+main()
