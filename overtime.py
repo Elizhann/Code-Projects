@@ -1,19 +1,25 @@
-#This is a program that calculates base pay
-#It then adds overtime pay for hours worked over 40
+#This is a program that adds functions to the overtime.py program
 
-hours = float(input('Enter hours:')) #Input for hours worked
+def main():
+    hours = float(input('Enter hours:')) 
 
-rate = float(input('Enter rate:')) #Input for pay rate
+    rate = float(input('Enter rate:')) 
 
-overtime = (rate * 1.5) * (hours - 40) #Calculate overtime as 1.5 * pay for hours worked over 40
+    compute_pay(hours, rate)
 
-#if more than 40 hours were worked, add overtime pay calculation and print both pay and overtime pay
-if hours > 40: 
-    pay = (rate * 40) + overtime
-    print('Pay:$', pay)
-    print('Overtime:$', overtime)
+def compute_pay(hours, rate):
 
-#if 40 or less hours were worked then do simple pay rate calculation and print pay
-else:
-    pay = rate * hours
-    print('Pay:$', pay)
+    if  hours > 40:
+        base_pay = rate * hours
+        overtime = (rate * 1.5) * (hours - 40)
+        total_pay = base_pay + overtime
+        print('Base Pay:$', base_pay)
+        print('Overtime:$', overtime)
+        print('Total Pay:$',total_pay)
+        
+    else:
+        total_pay = rate * hours
+        print('Total Pay:$', total_pay)         
+main()
+
+
