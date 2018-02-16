@@ -1,26 +1,37 @@
+#this program asks the user to input a number
+#until they input "done"
+#then prints the maximum and minumum  numbers 
 
-total = 0
-count = 0
+def main():
+    #creates list to add numbers
+    numbers_list = []
+
+    #call loop function
+    loop(numbers_list) 
+
+#function for loop
+def loop(numbers_list):   
+    while True: #start loop
+        number = input('Enter a number:')
+        if number == 'done': #break loop if user inputs "done"
+            break
+        else:
+            try:
+                number = int(number) #convert to integer
+                numbers_list.append(number)#add new number to list
+
+            except ValueError:
+                print('*Invalid number*')
+
+    #when loop is done, call function to print results
+    results(numbers_list) 
+
+#function to print results
+def results(numbers_list):
+    minimum = min(numbers_list)
+    maximum =  max(numbers_list)
+
+    print('Max:', maximum)
+    print('Min:', minimum)
     
-while True:
-
-    number = input('Enter a number:')
-
-    if number == 'done':
-         break
-
-    else:
-        try:
-            number = int(number)
-            total = total + number
-            count = count + 1
-
-        except ValueError:
-            print('Invalid number')
-
-average = total/count
-
-print('Total:',total)
-print('Count:', count)
-print('Average:', average)
-
+main()
