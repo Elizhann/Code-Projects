@@ -1,26 +1,38 @@
+#this program asks the user to input a number
+#until they input "done"
+#then prints the total, count and average of the numbers 
 
-total = 0
-count = 0
+def main():
+    #initalize variables
+    total = 0
+    count = 0
+
+    #call loop function
+    loop(total,count) 
+
+def loop(total, count):   
+    while True: #start loop
+        number = input('Enter a number:')
+        if number == 'done': #break loop if user inputs "done"
+            break
+        else:
+            try:
+                number = int(number) #convert to integer
+                total = total + number 
+                count = count + 1
+            except ValueError:
+                print('*Invalid number*')
+
+    #when loop is done, call function to print results
+    results(total, count) 
+
+#defines function to print results
+def results(total,count):
+
+    average = total/count
+
+    print('Total:',total)
+    print('Count:', count)
+    print('Average:', average)
     
-while True:
-
-    number = input('Enter a number:')
-
-    if number == 'done':
-         break
-
-    else:
-        try:
-            number = int(number)
-            total = total + number
-            count = count + 1
-
-        except ValueError:
-            print('Invalid number')
-
-average = total/count
-
-print('Total:',total)
-print('Count:', count)
-print('Average:', average)
-
+main()
