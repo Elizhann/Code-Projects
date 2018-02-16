@@ -6,10 +6,9 @@ def main():
     #initalize variables
     total = 0
     count = 0
-
     #call loop function
     loop(total,count) 
-
+    
 def loop(total, count):   
     while True: #start loop
         number = input('Enter a number:')
@@ -22,15 +21,12 @@ def loop(total, count):
                 count = count + 1
             except ValueError:
                 print('*Invalid number*')
-
     #when loop is done, call function to print results
     results(total, count) 
 
 #defines function to print results
 def results(total,count):
-
     average = total/count
-
     print('Total:',total)
     print('Count:', count)
     print('Average:', average)
