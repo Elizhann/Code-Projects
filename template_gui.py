@@ -33,8 +33,6 @@ class TemplateGUI:
 
         self.bottom_frame.pack(side = 'bottom')
 
-        #  sample entry window
-
 
     #   sample function to do something
     def enter(self):
