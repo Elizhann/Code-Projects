@@ -1,0 +1,95 @@
+#   this is a program that creates a GUI to take an input text file
+#   perform basic text processing and write the results to an output text file
+
+import tkinter
+import string
+
+#   defines class to read file
+class TextProcessor:
+    #   global variables for word lists
+    words_list = []
+    stopwords_list = []
+
+    # defines GUI design
+    def __init__(self, window):
+        self.window = window
+        window.title('Text Processor')
+
+        #   defines input entry
+        self.input_file_frame = tkinter.Frame(window)
+        self.input_file_label = tkinter.Label(self.input_file_frame, text = 'Enter Input File Name: ')
+        self.input_file_entry = tkinter.Entry(self.input_file_frame)
+        self.input_file_entry.pack(side = 'right')
+        self.input_file_label.pack(side = 'left')
+        self.input_file_frame.pack()
+
+        #   defines output entry
+        self.output_file_frame = tkinter.Frame(window)
+        self.output_file_label = tkinter.Label(self.output_file_frame, text = 'Enter Output File Name: ')
+        self.output_file_entry = tkinter.Entry(self.output_file_frame)
+        self.output_file_entry.pack(side = 'right')
+        self.output_file_label.pack(side = 'left')
+        self.output_file_frame.pack()
+
+        #   defines action buttons
+        self.button_frame = tkinter.Frame(window)
+        self.enter_button = tkinter.Button(self.button_frame, text = 'Enter', command = self.read_file)
+        self.exit_button = tkinter.Button(self.button_frame, text = 'Quit', command = window.quit)
+        self.exit_button.pack(side = 'right')
+        self.enter_button.pack(side = 'left')
+        self.button_frame.pack()
+
+        #   returns results message
+        self.display_frame = tkinter.Frame(window)
+        self.display_label_text = tkinter.StringVar()
+        self.display_label = tkinter.Label(self.display_frame, textvariable = self.display_label_text)
+        self.display_label.pack()
+        self.display_frame.pack()
+
+    #  defines function to open stopwords file and write to global stopwords list
+    def get_stopwords(self):
+        stopwords_list = open('stopwords.txt', 'r')
+        for lines in stopwords_list:
+            lines = lines.rstrip()
+            lines = lines.lower()
+            self.stopwords_list.append(lines)
+
+    #  defines function to read input file, perform basic text processing
+    def read_file(self):
+        common_words = self.get_stopwords() #   calls function to get stopwords
+        input_filename = self.input_file_entry.get() #   gets input file name
+
+        try:
+            openfile = open(input_filename, 'r')
+
+            for lines in openfile:
+                lines = lines.rstrip()
+                lines = lines.lower()
+                lines = lines.translate(lines.maketrans('', '', string.punctuation))
+                words = lines.split()
+                for word in words:
+                    if word in self.stopwords_list:
+                        continue
+                    if word not in self.words_list:
+                        self.words_list.append(word)
+            self.display_label_text.set('Processing Complete')
+            openfile.close()
+        
+            write = self.write_file() #   gets function to write to file
+
+        except FileNotFoundError:
+            self.display_label_text.set('File' + ' ' + str(input_filename) + ' ' + 'not found')
+
+    #   defines function to write keywords to output file
+    def write_file(self):
+        output_filename = self.output_file_entry.get() #   gets output file name
+        keywords_file = open(output_filename, 'w')
+        keywords_file.write('Keywords:' + '\n')
+        for word in self.words_list:
+            keywords_file.write(str(word) + '\n' )
+        keywords_file.close()
+
+#   calls object for class
+root = tkinter.Tk()
+read = TextProcessor(root)
+root.mainloop()
