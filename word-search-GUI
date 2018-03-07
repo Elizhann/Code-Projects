@@ -1,0 +1,96 @@
+#   this is a program that creates a GUI to take an input text file
+#   perform basic text processing and write the results to an output text file
+
+import tkinter
+import string
+
+#   defines class to read file
+class WordSearch:
+    #   global variables for word lists
+    counts = dict()
+
+    # defines GUI design
+    def __init__(self, window):
+        self.window = window
+        window.title('Word Search')
+
+        #   defines file input entry
+        self.input_file_frame = tkinter.Frame(window)
+        self.input_file_label = tkinter.Label(self.input_file_frame, text = 'Enter Input File Name: ', font = "Times 10 bold")
+        self.input_file_entry = tkinter.Entry(self.input_file_frame)
+        self.input_file_entry.pack(side = 'right')
+        self.input_file_label.pack(side = 'left')
+        self.input_file_frame.pack()
+
+        #   defines search frame
+        self.search_frame = tkinter.Frame(window)
+        self.search_label = tkinter.Label(self.search_frame, text = 'Enter search term: ', font = "Times 10 bold")
+        self.search_entry = tkinter.Entry(self.search_frame)
+        self.search_entry.pack(side = 'right')
+        self.search_label.pack(side = 'left')
+        self.search_frame.pack()
+
+        #   defines action buttons
+        self.button_frame = tkinter.Frame(window)
+        self.enter_button = tkinter.Button(self.button_frame, text = 'Enter', command = self.search, font = "Times 10 bold")
+        self.exit_button = tkinter.Button(self.button_frame, text = 'Quit', command = window.quit, font = "Times 10 bold")
+        self.exit_button.pack(side = 'right')
+        self.enter_button.pack(side = 'left')
+        self.button_frame.pack()
+
+        #   returns results message
+        self.display_frame = tkinter.Frame(window)
+        self.display_label_text = tkinter.StringVar()
+        self.display_label = tkinter.Label(self.display_frame, textvariable = self.display_label_text, font = "Times 10")
+        self.display_label.pack()
+        self.display_frame.pack()
+
+        self.new_search_frame = tkinter.Frame(window)
+        self.new_search_button = tkinter.Button(self.new_search_frame, text = 'Clear Search', command = self.clear_search, font = "Times 10 bold")
+        self.new_search_button.pack()
+        self.new_search_frame.pack()
+
+
+    #  defines function to read input file, perform basic text processing
+    def read_file(self):
+        self.counts.clear() #   clears dictionary to prevent false accumulations
+
+        input_filename = self.input_file_entry.get() #   gets input file name
+
+        try:
+            openfile = open(input_filename, 'r')
+
+            for lines in openfile:
+                lines = lines.rstrip()
+                lines = lines.lower()
+                lines = lines.translate(lines.maketrans('', '', string.punctuation))
+                words = lines.split()
+                for word in words:
+                    if word not in self.counts:
+                        self.counts[word] = 1
+                    else:
+                        self.counts[word] = self.counts[word] + 1
+            openfile.close()
+
+        except FileNotFoundError:
+            self.display_label_text.set('File' + ' ' + str(input_filename) + ' ' + 'not found')
+
+
+    def search(self):
+        self.read_file()
+        query = self.search_entry.get()
+        if query in self.counts:
+            results = self.counts[query]
+            self.display_label_text.set(str(query) + ': ' + str(results))
+        else:
+            self.display_label_text.set(str(query) + ' ' + 'could not be found')
+
+    def clear_search(self):
+        self.input_file_entry.delete(0, tkinter.END)
+        self.display_label_text.set(' ')
+        self.search_entry.delete(0, tkinter.END)
+
+#   calls object for class
+root = tkinter.Tk()
+read = WordSearch(root)
+root.mainloop()
