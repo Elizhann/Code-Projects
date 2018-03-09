@@ -1,5 +1,6 @@
 #   this is a program that creates a GUI to take an input text file
 #   perform basic text processing and write the results to an output text file
+#   3/9/18: switched geometric management from pack to grid
 
 import tkinter
 import string
@@ -13,42 +14,38 @@ class WordSearch:
     def __init__(self, window):
         self.window = window
         window.title('Word Search')
+        window.iconbitmap('mlogo_NxJ_icon.ico')
+        window.configure(bg = 'ivory')
 
-        #   defines file input entry
-        self.input_file_frame = tkinter.Frame(window)
-        self.input_file_label = tkinter.Label(self.input_file_frame, text = 'Enter Input File Name: ', font = "Times 10 bold")
-        self.input_file_entry = tkinter.Entry(self.input_file_frame)
-        self.input_file_entry.pack(side = 'right')
-        self.input_file_label.pack(side = 'left')
-        self.input_file_frame.pack()
+        #   file input
+        self.input_file_label = tkinter.Label(text = 'Enter Input File Name: ', font = "Serif 9 bold", bg = 'ivory')
+        self.input_file_entry = tkinter.Entry(font = "Serif 8")
+        self.input_file_label.grid(row = 0, column = 0, sticky = 'E')
+        self.input_file_entry.grid(row = 0, column = 1, sticky = 'E')
 
-        #   defines search frame
-        self.search_frame = tkinter.Frame(window)
-        self.search_label = tkinter.Label(self.search_frame, text = 'Enter search term: ', font = "Times 10 bold")
-        self.search_entry = tkinter.Entry(self.search_frame)
-        self.search_entry.pack(side = 'right')
-        self.search_label.pack(side = 'left')
-        self.search_frame.pack()
 
-        #   defines action buttons
-        self.button_frame = tkinter.Frame(window)
-        self.enter_button = tkinter.Button(self.button_frame, text = 'Enter', command = self.search, font = "Times 10 bold")
-        self.exit_button = tkinter.Button(self.button_frame, text = 'Quit', command = window.quit, font = "Times 10 bold")
-        self.exit_button.pack(side = 'right')
-        self.enter_button.pack(side = 'left')
-        self.button_frame.pack()
+        #   search
+        self.search_label = tkinter.Label(text = 'Enter search term: ', font = "Serif 9 bold", bg = 'ivory')
+        self.search_entry = tkinter.Entry(text = "Serif 8")
+        self.search_label.grid(row = 2, column = 0, sticky = 'W')
+        self.search_entry.grid(row = 2, column = 1, sticky = 'E')
 
-        #   returns results message
-        self.display_frame = tkinter.Frame(window)
+
+        #  action buttons
+        self.enter_button = tkinter.Button( text = 'Search', command = self.search, font = "Serif 9 bold", bg = 'navy', fg = 'yellow')
+        self.new_search_button = tkinter.Button(text = 'Clear Search', command = self.clear_search, font = "Serif 9 bold", bg = 'navy', fg = 'yellow')
+        self.exit_button = tkinter.Button(text = 'Quit', command = window.quit, font = "Serif 9 bold", bg = 'navy', fg = 'yellow')
+        self.enter_button.grid(row = 3, column = 1, sticky = 'E')
+        self.new_search_button.grid(row = 3, column = 2)
+        self.exit_button.grid(row = 3, column = 3)
+
+        #  results message
         self.display_label_text = tkinter.StringVar()
-        self.display_label = tkinter.Label(self.display_frame, textvariable = self.display_label_text, font = "Times 10")
-        self.display_label.pack()
-        self.display_frame.pack()
+        self.display_label = tkinter.Label(textvariable = self.display_label_text, font = "Serif 8", bg = 'ivory')
+        self.display_label.grid(row = 3, column = 0)
 
-        self.new_search_frame = tkinter.Frame(window)
-        self.new_search_button = tkinter.Button(self.new_search_frame, text = 'Clear Search', command = self.clear_search, font = "Times 10 bold")
-        self.new_search_button.pack()
-        self.new_search_frame.pack()
+
+
 
 
     #  defines function to read input file, perform basic text processing
@@ -94,3 +91,4 @@ class WordSearch:
 root = tkinter.Tk()
 read = WordSearch(root)
 root.mainloop()
+
