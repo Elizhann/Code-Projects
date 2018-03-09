@@ -1,5 +1,6 @@
 #   this is a program that creates a GUI to take an input text file
 #   perform basic text processing and write the results to an output text file
+#   3/9/19: re-written with grid formatting
 
 import tkinter
 import string
@@ -16,35 +17,32 @@ class TextProcessor:
         window.title('Text Processor')
 
         #   defines input entry
-        self.input_file_frame = tkinter.Frame(window)
-        self.input_file_label = tkinter.Label(self.input_file_frame, text = 'Enter Input File Name: ')
-        self.input_file_entry = tkinter.Entry(self.input_file_frame)
-        self.input_file_entry.pack(side = 'right')
-        self.input_file_label.pack(side = 'left')
-        self.input_file_frame.pack()
+        self.input_file_label = tkinter.Label(text = 'Enter Input File Name: ', font = "Serif 9 bold")
+        self.input_file_entry = tkinter.Entry(font = "Serif 8")
+        self.input_file_label.grid(row = 0, column = 0, sticky = 'W')
+        self.input_file_entry.grid(row = 0, column = 1, sticky = 'E')
 
         #   defines output entry
-        self.output_file_frame = tkinter.Frame(window)
-        self.output_file_label = tkinter.Label(self.output_file_frame, text = 'Enter Output File Name: ')
-        self.output_file_entry = tkinter.Entry(self.output_file_frame)
-        self.output_file_entry.pack(side = 'right')
-        self.output_file_label.pack(side = 'left')
-        self.output_file_frame.pack()
+
+        self.output_file_label = tkinter.Label(text = 'Enter Output File Name: ', font = "Serif 9 bold")
+        self.output_file_entry = tkinter.Entry(font = "Serif 8")
+        self.output_file_label.grid(row = 1, column = 0, sticky = 'W')
+        self.output_file_entry.grid(row = 1, column = 1, sticky = 'E')
+
 
         #   defines action buttons
-        self.button_frame = tkinter.Frame(window)
-        self.enter_button = tkinter.Button(self.button_frame, text = 'Enter', command = self.read_file)
-        self.exit_button = tkinter.Button(self.button_frame, text = 'Quit', command = window.quit)
-        self.exit_button.pack(side = 'right')
-        self.enter_button.pack(side = 'left')
-        self.button_frame.pack()
+        self.enter_button = tkinter.Button(text = 'Enter', command = self.read_file, font = "Serif 9 bold", bg = 'green')
+        self.exit_button = tkinter.Button(text = 'Quit', command = window.quit, font = "Serif 9 bold", bg = 'red')
+        self.enter_button.grid(row =5, column = 0, sticky = 'E')
+        self.exit_button.grid(row = 5, column = 1, sticky = 'W')
 
         #   returns results message
-        self.display_frame = tkinter.Frame(window)
         self.display_label_text = tkinter.StringVar()
-        self.display_label = tkinter.Label(self.display_frame, textvariable = self.display_label_text)
-        self.display_label.pack()
-        self.display_frame.pack()
+        self.display_label = tkinter.Label(textvariable = self.display_label_text, font = "Serif 8")
+        self.status_label = tkinter.Label(text = 'Status: ', font = "Serif 9 bold")
+        self.status_label.grid(row = 3, column = 0)
+        self.display_label.grid(row = 3, column = 1, sticky = 'W')
+
 
     #  defines function to open stopwords file and write to global stopwords list
     def get_stopwords(self):
@@ -74,7 +72,7 @@ class TextProcessor:
                         self.words_list.append(word)
             self.display_label_text.set('Processing Complete')
             openfile.close()
-        
+
             write = self.write_file() #   gets function to write to file
 
         except FileNotFoundError:
