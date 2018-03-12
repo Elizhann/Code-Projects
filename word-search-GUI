@@ -76,6 +76,7 @@ class WordSearch:
     def search(self):
         self.read_file()
         query = self.search_entry.get()
+        query = query.lower()
         if query in self.counts:
             results = self.counts[query]
             self.display_label_text.set(str(query) + ': ' + str(results))
